@@ -8,5 +8,7 @@ While there are many programs that help learn to play piano or improve sight-rea
 * Lists the level at which you are playing (pp, p, mp, etc.)
 * Future feature to indicate how closely aligned simultaneous notes are played
 
+![Screenshot](https://github.com/scottroot/Piano-Dynamics-Midi-Trainer/blob/master/img/screenshot.png)
+
 ## Credits
 Utilizes python-rtmidi to capture midi messages in realtime
