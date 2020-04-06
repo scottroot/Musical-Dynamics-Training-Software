@@ -1,6 +1,6 @@
 # Piano-Dynamics-Midi-Trainer
 ## Description
-Simple python program that helps pianists practice and visualize their dynamic expression in real time as they play.
+Simple python program that helps pianists practice and visualize their dynamic expression in real time.
 
 ## Primary Use
 While there are many programs that help learn to play piano or improve sight-reading, none have focused on practicing and fine-tuning dynamic expression.  This program provides a very simple user-interface to visualize your dynmics:
