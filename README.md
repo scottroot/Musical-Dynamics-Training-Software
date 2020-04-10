@@ -1,4 +1,4 @@
-# Piano-Dynamics-Midi-Trainer
+# Musical Dynamics Training Software for Digital Piano (and other midi-capable devices)
 ## Description
 Simple python program that helps pianists practice and visualize their dynamic expression in real time.
 
