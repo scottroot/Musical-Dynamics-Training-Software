@@ -1,11 +1,11 @@
 import logging
 import time
 from tkinter import *
-
-import numpy as np
+# from constants.py import midi_dynamics
+# from constants import dynamics_color
+# from constants import midikeyDict
+from constants import *
 from rtmidi.midiutil import open_midiinput
-
-import midi_constants.py
 
 # ROOT WINDOW
 root = Tk()
@@ -25,7 +25,7 @@ txt = Label(root, text="Dynamics")
 txt.configure(font="Georgia 20 bold", foreground="#efcf83", bg="#161616")
 txt.grid(row=0, column=0)
 # piano_photo = PhotoImage(file='piano_3.png')
-c.piano_image = PhotoImage(file='piano_3.png')
+c.piano_image = PhotoImage(file='../img/piano_3.png')
 c.piano_image_id = c.create_image(1300, 624, image=c.piano_image)
 c.move(c.piano_image_id, -650, -312)
 
@@ -49,14 +49,8 @@ except (EOFError, KeyboardInterrupt):
 print("Entering main loop. Press Control-C to exit.")
 
 
-def closest(lst, k):  # Used for calculating closest dynamics variable from velocity integer
-    lst = np.asarray(lst)
-    idx = (np.abs(lst - k)).argmin()
-    return lst[idx]
-
-
 # CLOSE HANDLER
-def close(event):
+def close_gui(event):
     root.withdraw()  # if you want to bring it back
     sys.exit()  # if you want to exit the entire thing
     print("Exit.")
@@ -64,8 +58,7 @@ def close(event):
     del midiin
 
 
-# bind escape key to the above close function
-root.bind('<Escape>', close)
+root.bind('<Escape>', close_gui)
 
 # tkinter After loop
 def task():
@@ -79,9 +72,9 @@ def task():
         if int(message[0]) == 144:
             timer += deltatime
             midi_velocity = int(message[2])
-            rounded_velocity = closest(dynamics_lst, midi_velocity)
-            dynamics = dynamicsDict[rounded_velocity]
-            txt.configure(text=str(dynamics))
+            # rounded_velocity = closest(dynamics_lst, midi_velocity)
+            dynamics = midi_dynamics(midi_velocity)
+            txt.configure(text=str(dynamics[0]))
             txt.update()  # update text at top of GUI with dynamics variable
             x0 = piano_key * x_stretch + piano_key * x_width + x_gap  # visible LEFT
             y0 = 624 - y_gap - midi_velocity * y_stretch  # visible TOP - newly calculated
@@ -92,17 +85,18 @@ def task():
             while curr_height > y0:
                 curr_height -= 0.2
                 c.coords(find_rect_id, x0, curr_height, x1, y1_const)
-            # TODO put this into the constants file
-            if dynamics == 'pp':
-                c.itemconfig(find_rect_id, fill='#71C7E7')
-            elif dynamics == 'p':
-                c.itemconfig(find_rect_id, fill='#009FDA')
-            elif dynamics == 'mf':
-                c.itemconfig(find_rect_id, fill='#A54499')
-            elif dynamics == 'f':
-                c.itemconfig(find_rect_id, fill='#FD663F')
-            elif dynamics == 'ff':
-                c.itemconfig(find_rect_id, fill='#FD2D26')
+            # # TODO put this into the constants file
+            # if dynamics == 'pp':
+            #     c.itemconfig(find_rect_id, fill='#71C7E7')
+            # elif dynamics == 'p':
+            #     c.itemconfig(find_rect_id, fill='#009FDA')
+            # elif dynamics == 'mf':
+            #     c.itemconfig(find_rect_id, fill='#A54499')
+            # elif dynamics == 'f':
+            #     c.itemconfig(find_rect_id, fill='#FD663F')
+            # elif dynamics == 'ff':
+            #     c.itemconfig(find_rect_id, fill='#FD2D26')
+            c.itemconfig(find_rect_id, fill=dynamics_color(midi_velocity))
                 
         elif int(message[0]) == 128:
             timer += deltatime
